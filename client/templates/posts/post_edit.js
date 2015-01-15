@@ -6,7 +6,7 @@ Template.postEdit.events({
 			url: $(e.target).find('[name=url]').val(), 
 			title: $(e.target).find('[name=title]').val()
 		}
-		Posts.update(
+	/*	Posts.update(
 			currentPostId, 
 			{$set: postProperties}, 
 			function(error) { 
@@ -17,7 +17,19 @@ Template.postEdit.events({
 					Router.go('postPage', {_id: currentPostId});
 				}
 			}
-		); 
+		);
+	*/
+		Meteor.call('postUpdate', postProperties, 
+			function( error, result ) {
+				if (error) {
+					return alert( error.reason );
+				}
+				if (result.urlExists) {
+					alert('This url has already been posted');
+				}
+				Router.go('postPage', {_id: result._id});
+			}
+		);
 	},
 	'click .delete': function(e) { 
 		e.preventDefault();
