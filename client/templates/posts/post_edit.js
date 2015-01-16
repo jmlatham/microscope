@@ -22,10 +22,12 @@ Template.postEdit.events({
 		Meteor.call('postUpdate', postProperties, 
 			function( error, result ) {
 				if (error) {
-					return alert( error.reason );
+					//return alert( error.reason );
+					throwError( error.reason );
 				}
 				if (result.urlExists) {
-					alert('This url has already been posted');
+					//alert('This url has already been posted');
+					throwError( 'This url has already been posted' );
 				}
 				Router.go('postPage', {_id: result._id});
 			}
